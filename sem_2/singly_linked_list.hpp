@@ -124,15 +124,18 @@ namespace lnkd_lst
 
         bool empty () const { return size_ == 0; }
 
+        SListNode<T>* get_head() { return head_; }
+
+        const SListNode<T>* get_head() const { return head_; }
+
+        void set_head (SListNode<T>* new_head) { head_ = new_head; }
+
         void push_front (const T& value)
         {
             SListNode<T>* new_node = new SListNode<T>(value, head_);
             head_ = new_node;
             size_++;
         }
-
-        SListNode<T>* get_head() { return head_; }
-        const SListNode<T>* get_head() const { return head_; }
 
         SListNode<T>* find_node_at (size_t pos)
         {
@@ -163,4 +166,31 @@ namespace lnkd_lst
             std::cout << "]" << std::endl;
         }
     };
+
+    template<typename T>
+    std::ostream& operator<< (std::ostream& ostrm, const SListNode<T>& node)
+    {
+        ostrm << node.get_data();
+        return ostrm;
+    }
+
+    template<typename T>
+    std::ostream& operator<< (std::ostream& ostrm, const SLinkedList<T>& list)
+    {
+        const SListNode<T>* current = list.get_head();
+
+        ostrm << "[";
+        while (current != nullptr)
+        {
+            ostrm << *current;
+
+            if (current->get_next() != nullptr)
+                ostrm << ", ";
+
+            current = current->get_next();
+        }
+        ostrm << "]";
+
+        return ostrm;
+    }
 }

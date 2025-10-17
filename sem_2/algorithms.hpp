@@ -25,5 +25,28 @@ namespace algs
 
         return false;
     }
+
+    // 2.
+    template<typename T>
+    void reverse_linked_list (lnkd_lst::SLinkedList<T>& list)
+    {
+        auto head = list.get_head();
+        if (head == nullptr || head->get_next() == nullptr)
+            return;
+
+        lnkd_lst::SListNode<T>* prev = nullptr;
+        lnkd_lst::SListNode<T>* current = head;
+        lnkd_lst::SListNode<T>* next = nullptr;
+
+        while (current != nullptr)
+        {
+            next = current->get_next();
+            current->set_next (prev);
+            prev = current;
+            current = next;
+        }
+
+        list.set_head (prev);
+    }
 }
 

@@ -7,14 +7,14 @@ namespace lnkd_lst
     {
         if (list.empty())
         {
-            std::cout << "List is empty." << std::endl;
+            std::cout << "in [1]: List is empty." << std::endl;
             return 1;
         }
 
         SListNode<T>* cycle_start = list.find_node_at (pos);
         if (cycle_start == nullptr)
         {
-            std::cout << "Wrong position for cycle: " << pos << std::endl;
+            std::cout << "in [1]: Wrong position for cycle: " << pos << std::endl;
             return 1;
         }
 
@@ -23,7 +23,7 @@ namespace lnkd_lst
             tail = tail->get_next();
 
         tail->set_next (cycle_start);
-        std::cout << "Cycle created at position " << pos << std::endl;
+        std::cout << "in [1]: Cycle created at position " << pos << std::endl;
 
         return 0;
     }
@@ -44,14 +44,21 @@ int main ()
 
     List.dump();
 
+    // 1.
     lnkd_lst::SLinkedList<int> cycle_lst = List;
     if (lnkd_lst::create_cycle_in_list (cycle_lst, 5))
         return 1;
 
     if (algs::cycle_search (cycle_lst))
-        std::cout << "1: is cycled list" << std::endl;
+        std::cout << "[1]: is cycled list" << std::endl;
     else
-        std::cout << "1: is common list" << std::endl;
+        std::cout << "[1]: is common list" << std::endl;
+
+    // 2.
+    algs::reverse_linked_list (List);
+    std::cout << "[2]: after reverse: ";
+    List.dump();
+    std::cout << "[2]: head after reverse: " << List.get_head()->get_data() << std::endl;
 
     return 0;
 }
