@@ -130,6 +130,10 @@ namespace lnkd_lst
 
         void set_head (SListNode<T>* new_head) { head_ = new_head; }
 
+        size_t get_size() const { return size_; }
+
+        void set_size (size_t new_size) { size_ = new_size; }
+
         void push_front (const T& value)
         {
             SListNode<T>* new_node = new SListNode<T>(value, head_);

@@ -67,5 +67,42 @@ namespace algs
 
         return slow;
     }
+
+    // 4.
+    template<typename T>
+    void remove_elements (lnkd_lst::SLinkedList<T>& list, const T& value)
+    {
+        auto head = list.get_head();
+        if (head == nullptr)
+            return;
+
+        lnkd_lst::SListNode<T> dummy (T{});                 // works only when T have ctor
+        dummy.set_next (head);
+
+        lnkd_lst::SListNode<T>* prev = &dummy;
+        lnkd_lst::SListNode<T>* current = head;
+
+        size_t del_cnt = 0;
+
+        while (current != nullptr)
+        {
+            if (current->get_data() == value)
+            {
+                prev->set_next (current->get_next());
+                delete current;
+                current = prev->get_next();
+
+                del_cnt++;
+            }
+            else
+            {
+                prev = current;
+                current = current->get_next();
+            }
+        }
+
+        list.set_head (dummy.get_next());
+        list.set_size (list.get_size() - del_cnt);
+    }
 }
 

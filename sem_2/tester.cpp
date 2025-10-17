@@ -39,7 +39,7 @@ int main ()
     List.push_front (40);
     List.push_front (50);
     List.push_front (60);
-    List.push_front (70);
+    List.push_front (10);
     List.push_front (80);
 
     List.dump();
@@ -63,6 +63,12 @@ int main ()
     // 3.
     auto mid_node = algs::search_middle_node (List);
     std::cout << "[3]: mid_node = " << mid_node << ", data = " << *mid_node << std::endl;
+
+    // 4.
+    std::cout << "[4]: size = " << List.get_size();
+    algs::remove_elements (List, 10);
+    std::cout << " | remove '10' -> size = " << List.get_size() << ": ";
+    List.dump();
 
     return 0;
 }
