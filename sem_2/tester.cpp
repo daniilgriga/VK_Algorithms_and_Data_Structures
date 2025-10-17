@@ -60,5 +60,9 @@ int main ()
     List.dump();
     std::cout << "[2]: head after reverse: " << List.get_head()->get_data() << std::endl;
 
+    // 3.
+    auto mid_node = algs::search_middle_node (List);
+    std::cout << "[3]: mid_node = " << mid_node << ", data = " << *mid_node << std::endl;
+
     return 0;
 }

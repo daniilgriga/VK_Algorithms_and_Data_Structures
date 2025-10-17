@@ -48,5 +48,24 @@ namespace algs
 
         list.set_head (prev);
     }
+
+    // 3.
+    template<typename T>
+    const lnkd_lst::SListNode<T>* search_middle_node (const lnkd_lst::SLinkedList<T>& list)
+    {
+        auto slow = list.get_head();
+        if (slow == nullptr)
+            return nullptr;
+
+        auto fast = slow;
+
+        while (fast != nullptr && fast->get_next() != nullptr)
+        {
+            slow = slow->get_next();
+            fast = fast->get_next()->get_next();
+        }
+
+        return slow;
+    }
 }
 
