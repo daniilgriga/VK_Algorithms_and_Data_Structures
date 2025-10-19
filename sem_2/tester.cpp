@@ -106,5 +106,37 @@ int main ()
     else
         std::cout << "[6.3 (pointers)]: string = '" << string << "' is NOT a palindrom!\n" << std::endl;
 
+    // 7.
+    lnkd_lst::SLinkedList<int> List_1;
+    List_1.push_front (29);
+    List_1.push_front (22);
+    List_1.push_front (21);
+    List_1.push_front (17);
+    List_1.push_front (13);
+    List_1.push_front (5);
+
+    lnkd_lst::SLinkedList<int> List_2;
+    List_2.push_front (43);
+    List_2.push_front (33);
+    List_2.push_front (28);
+    List_2.push_front (19);
+    List_2.push_front (18);
+    List_2.push_front (12);
+    List_2.push_front (6);
+
+    std::cout << "[7]: List_1 = ";
+    List_1.dump();
+    std::cout << std::endl;
+
+    std::cout << "[7]: List_2 = ";
+    List_2.dump();
+    std::cout << std::endl;
+
+    lnkd_lst::SLinkedList<int> merged_List = algs::merge_sorted_lists (List_1, List_2);
+
+    std::cout << "[7]: merged_List = ";
+    merged_List.dump();
+    std::cout << std::endl;
+
     return 0;
 }

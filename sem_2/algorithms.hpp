@@ -166,6 +166,7 @@ namespace algs
     {
         return std::isalnum (static_cast<unsigned char>(c));
     }
+
     // 6.1.
     bool is_palindrome_stack (const std::string& str)
     {
@@ -193,6 +194,7 @@ namespace algs
 
         return true;
     }
+
     // 6.2.
     bool is_palindrome_deque (const std::string& str)
     {
@@ -218,6 +220,7 @@ namespace algs
 
         return true;
     }
+
     // 6.3.
     bool is_palindrome_pointers (const std::string& str)
     {
@@ -244,5 +247,53 @@ namespace algs
 
         return true;
     }
-}
 
+    // 7.
+    lnkd_lst::SLinkedList<int> merge_sorted_lists (lnkd_lst::SLinkedList<int>& list1,
+                                                   lnkd_lst::SLinkedList<int>& list2)
+    {
+        if (list1.empty())
+            return std::move (list2);
+        if (list2.empty())
+            return std::move (list1);
+
+        auto node1 = list1.get_head();
+        auto node2 = list2.get_head();
+
+        auto head = (node1->get_data() <= node2->get_data()) ? node1 : node2;
+        auto tail = head;
+
+        if (head == node1)
+            node1 = node1->get_next();
+        else
+            node2 = node2->get_next();
+
+        while (node1 != nullptr && node2 != nullptr)
+        {
+            if (node1->get_data() <= node2->get_data())
+            {
+                tail->set_next (node1);
+                node1 = node1->get_next();
+            }
+            else
+            {
+                tail->set_next (node2);
+                node2 = node2->get_next();
+            }
+
+            tail = tail->get_next();
+        }
+
+        tail->set_next (node1 ? node1 : node2);
+
+        lnkd_lst::SLinkedList<int> merged_l;
+
+        merged_l.set_head (head);
+        merged_l.set_size (list1.size() + list2.size());
+
+        list1.set_head (nullptr); list1.set_size (0);
+        list2.set_head (nullptr); list2.set_size (0);
+
+        return merged_l;
+    }
+}
