@@ -1,5 +1,7 @@
 #pragma once
 
+#include <queue>
+
 #include "singly_linked_list.hpp"
 
 namespace algs
@@ -103,6 +105,53 @@ namespace algs
 
         list.set_head (dummy.get_next());
         list.set_size (list.get_size() - del_cnt);
+    }
+
+    // 5.1.
+    bool is_subsequence_queue (const std::string& a, const std::string& b)
+    {
+        if (a.empty())
+            return true;
+        if (b.empty())
+            return false;
+
+        std::queue<char> queue;
+
+        for (char ch : a)
+            queue.push (ch);
+
+        for (char ch : b)
+        {
+            if (queue.empty())
+                break;
+
+            if (queue.front() == ch)
+                queue.pop();
+        }
+
+        return queue.empty();
+    }
+
+    // 5.2.
+    bool is_subsequence_pointers (const std::string& a, const std::string& b)
+    {
+        if (a.empty())
+            return true;
+        if (b.empty())
+            return false;
+
+        size_t i = 0;
+        size_t j = 0;
+
+        while (i < a.length() && j < b.length())
+        {
+            if (a[i] == b[j])
+                i++;
+
+            j++;
+        }
+
+        return i == a.length();
     }
 }
 

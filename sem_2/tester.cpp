@@ -70,5 +70,19 @@ int main ()
     std::cout << " | remove '10' -> size = " << List.get_size() << ": ";
     List.dump();
 
+    // 5.
+    const std::string a = "lgots";
+    const std::string b = "Algorithms";
+
+    if (algs::is_subsequence_queue (a, b))
+        std::cout << "[5.1 (queue)]:    a = '" << a << "' is a substring of b = '" << b << "'" << std::endl;
+    else
+        std::cout << "[5.1 (queue)]:    a = '" << a << "' is NOT a substring of b = '" << b << "'" << std::endl;
+
+    if (algs::is_subsequence_pointers (a, b))
+        std::cout << "[5.2 (pointers)]: a = '" << a << "' is a substring of b = '" << b << "'" << std::endl;
+    else
+        std::cout << "[5.2 (pointers)]: a = '" << a << "' is NOT a substring of b = '" << b << "'" << std::endl;
+
     return 0;
 }
