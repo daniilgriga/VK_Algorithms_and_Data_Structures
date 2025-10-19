@@ -1,6 +1,8 @@
 #pragma once
 
 #include <queue>
+#include <stack>
+#include <cctype>
 
 #include "singly_linked_list.hpp"
 
@@ -152,6 +154,95 @@ namespace algs
         }
 
         return i == a.length();
+    }
+
+    // 6.
+    char to_lower_symb (char c)     // to only one lower register
+    {
+        return std::tolower (static_cast<unsigned char>(c));
+    }
+
+    bool is_alpha_or_num (char c)   // check only letter and nums
+    {
+        return std::isalnum (static_cast<unsigned char>(c));
+    }
+    // 6.1.
+    bool is_palindrome_stack (const std::string& str)
+    {
+        if (str.empty())
+            return true;
+
+        std::stack<char> stack;
+
+        for (char ch : str)
+        {
+            if (is_alpha_or_num (ch))
+                stack.push (to_lower_symb (ch));
+        }
+
+        for (char ch : str)
+        {
+            if (is_alpha_or_num (ch))
+            {
+                if (to_lower_symb (ch) != stack.top())
+                    return false;
+
+                stack.pop();
+            }
+        }
+
+        return true;
+    }
+    // 6.2.
+    bool is_palindrome_deque (const std::string& str)
+    {
+        if (str.empty())
+            return true;
+
+        std::deque<char> deque;
+
+        for (char ch : str)
+        {
+            if (is_alpha_or_num (ch))
+                deque.push_back (to_lower_symb (ch));
+        }
+
+        while (deque.size() > 1)
+        {
+            if (deque.front() != deque.back())
+                return false;
+
+            deque.pop_front();
+            deque.pop_back();
+        }
+
+        return true;
+    }
+    // 6.3.
+    bool is_palindrome_pointers (const std::string& str)
+    {
+        if (str.empty())
+            return true;
+
+        int left = 0;
+        int right = str.length() - 1;
+
+        while (left < right)
+        {
+            while (left < right && !is_alpha_or_num (str[left]))
+                left++;
+
+            while (left < right && !is_alpha_or_num (str[right]))
+                right--;
+
+            if (to_lower_symb (str[left]) != to_lower_symb (str[right]))
+                return false;
+
+            left++;
+            right--;
+        }
+
+        return true;
     }
 }
 

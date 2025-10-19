@@ -69,20 +69,42 @@ int main ()
     algs::remove_elements (List, 10);
     std::cout << " | remove '10' -> size = " << List.get_size() << ": ";
     List.dump();
+    std::cout << "\n";
 
     // 5.
     const std::string a = "lgots";
     const std::string b = "Algorithms";
-
+    // 5.1.
     if (algs::is_subsequence_queue (a, b))
         std::cout << "[5.1 (queue)]:    a = '" << a << "' is a substring of b = '" << b << "'" << std::endl;
     else
         std::cout << "[5.1 (queue)]:    a = '" << a << "' is NOT a substring of b = '" << b << "'" << std::endl;
-
+    // 5.2.
     if (algs::is_subsequence_pointers (a, b))
-        std::cout << "[5.2 (pointers)]: a = '" << a << "' is a substring of b = '" << b << "'" << std::endl;
+        std::cout << "[5.2 (pointers)]: a = '" << a << "' is a substring of b = '" << b << "'\n" << std::endl;
     else
-        std::cout << "[5.2 (pointers)]: a = '" << a << "' is NOT a substring of b = '" << b << "'" << std::endl;
+        std::cout << "[5.2 (pointers)]: a = '" << a << "' is NOT a substring of b = '" << b << "'\n" << std::endl;
+
+    // 6.
+    const std::string str_1 = "Oozy 38 rat in a sanitar 83 y zoo";
+    const std::string str_2 = "levelt";
+
+    const std::string string = str_1;
+    // 6.1.
+    if (algs::is_palindrome_stack (string))
+        std::cout << "[6.1 (stack)]:    string = '" << string << "' is a palindrom!" << std::endl;
+    else
+        std::cout << "[6.1 (stack)]:    string = '" << string << "' is NOT a palindrom!" << std::endl;
+    // 6.2.
+    if (algs::is_palindrome_deque (string))
+        std::cout << "[6.2 (deque)]:    string = '" << string << "' is a palindrom!" << std::endl;
+    else
+        std::cout << "[6.2 (deque)]:    string = '" << string << "' is NOT a palindrom!" << std::endl;
+    // 6.3.
+    if (algs::is_palindrome_pointers (string))
+        std::cout << "[6.3 (pointers)]: string = '" << string << "' is a palindrom!\n" << std::endl;
+    else
+        std::cout << "[6.3 (pointers)]: string = '" << string << "' is NOT a palindrom!\n" << std::endl;
 
     return 0;
 }
