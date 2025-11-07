@@ -4,9 +4,19 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
+#include <random>
 
 namespace algs
 {
+    static void print_vector (const std::vector<int>& vec)
+    {
+        for (const auto& element : vec)
+            std::cout << element << " ";
+
+        std::cout << std::endl;
+    }
+
+    // 1.
     using ll_t = long long;
 
     size_t sqrt_binary (size_t target)
@@ -191,5 +201,156 @@ namespace algs
         }
 
         return {};
+    }
+
+    // 6.1. SHELL SORT
+    enum class ShellSeq_t
+    {
+        HIBBARD,
+        PRATT,
+        CIURA
+    };
+
+    std::vector<int> generate_rand_vector (int size, int min = 1, int max = 1000)
+    {
+        std::vector<int> vec(size);
+        std::random_device rd;
+        std::mt19937 gen (rd());
+        std::uniform_int_distribution<int> distr (min, max);
+
+        for (int i = 0; i < size; i++)
+            vec[i] = distr (gen);
+
+        return vec;
+    }
+
+    // Hibbard: gap = 2^k - 1
+    std::vector<int> generate_hibbard_seq (int n)
+    {
+        std::vector<int> gaps = {};
+        int k = 1;
+
+        while (true)
+        {
+            int gap = (1 << k) - 1;
+            if (gap > n)
+                break;
+
+            gaps.push_back (gap);
+            k++;
+        }
+
+        std::sort (gaps.rbegin(), gaps.rend());
+
+        return gaps;
+    }
+
+
+    // Pratt: 2^i * 3^j
+    std::vector<int> generate_pratt_seq (int n)
+    {
+        std::vector<int> gaps = {};
+
+        for (int i = 0; ; i++)
+        {
+            int pow_2 = 1 << i;
+
+            if (pow_2 > n)
+                break;
+
+            for (int j = 0; ; j++)
+            {
+                int gap = pow_2;
+
+                for (int k = 0; k < j; k++)
+                {
+                    gap *= 3;
+                    if (gap > n)
+                        break;
+                }
+
+                if (gap > n)
+                    break;
+
+                gaps.push_back (gap);
+            }
+        }
+
+        std::sort (gaps.begin(), gaps.end());   // for std::unique
+        gaps.erase (std::unique (gaps.begin(), gaps.end()), gaps.end());
+        std::sort (gaps.rbegin(), gaps.rend());
+
+        return gaps;
+    }
+
+    // Ciura: ..., 701, 301, 132, 57, 23, 10, 4, 1
+    std::vector<int> generate_ciura_seq (int n)
+    {
+        std::vector<int> base_gaps = {701, 301, 132, 57, 23, 10, 4, 1};
+        std::vector<int> gaps = {};
+
+        if (n <= 701)
+        {
+            for (int gap : base_gaps)
+                if (gap <= n)
+                    gaps.push_back (gap);
+        }
+        else
+        {
+            // extending the sequence for large arrays (from https://en.wikipedia.org/wiki/Shellsort)
+            gaps = base_gaps;
+            int next_gap = 701;
+
+            while (next_gap * 2.25 < n)
+            {
+                next_gap = static_cast<int> (next_gap * 2.25);
+                gaps.insert (gaps.begin(), next_gap);
+            }
+        }
+
+        return gaps;
+    }
+
+    void shell_sort (std::vector<int>& vec, ShellSeq_t sequence_type)
+    {
+        int n = vec.size();
+        std::vector<int> gaps = {};
+
+        switch (sequence_type)
+        {
+            case ShellSeq_t::HIBBARD:
+                gaps = generate_hibbard_seq (n);
+                std::cout << "[6 (hibbard)]: generated seq -> ";
+                break;
+
+            case ShellSeq_t::PRATT:
+                gaps = generate_pratt_seq (n);
+                std::cout << "[6 (pratt)]: generated seq -> ";
+                break;
+
+            case ShellSeq_t::CIURA:
+                gaps = generate_ciura_seq (n);
+                std::cout << "[6 (ciura)]: generated seq -> ";
+                break;
+        }
+
+        print_vector (gaps);
+
+        for (int gap : gaps)
+        {
+            for (int i = gap; i < n; i++)
+            {
+                int temp = vec[i];
+                int curr = i;
+
+                while (curr >= gap && vec[curr - gap] > temp)
+                {
+                    vec[curr] = vec[curr - gap];
+                    curr -= gap;
+                }
+
+                vec[curr] = temp;
+            }
+        }
     }
 }
