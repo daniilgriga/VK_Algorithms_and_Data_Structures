@@ -320,17 +320,17 @@ namespace algs
         {
             case ShellSeq_t::HIBBARD:
                 gaps = generate_hibbard_seq (n);
-                std::cout << "[6 (hibbard)]: generated seq -> ";
+                std::cout << "[6.1 (hibbard)]: generated seq -> ";
                 break;
 
             case ShellSeq_t::PRATT:
                 gaps = generate_pratt_seq (n);
-                std::cout << "[6 (pratt)]: generated seq -> ";
+                std::cout << "[6.1 (pratt)]: generated seq -> ";
                 break;
 
             case ShellSeq_t::CIURA:
                 gaps = generate_ciura_seq (n);
-                std::cout << "[6 (ciura)]: generated seq -> ";
+                std::cout << "[6.1 (ciura)]: generated seq -> ";
                 break;
         }
 
@@ -352,5 +352,51 @@ namespace algs
                 vec[curr] = temp;
             }
         }
+    }
+
+    // 6.2. (task)
+    using StringVector = std::vector<std::string>;
+    using AnagramResult = std::vector<StringVector>;
+
+    AnagramResult group_anagrams (StringVector& strs)
+    {
+        std::unordered_map<std::string, StringVector> groups;
+
+        for (const std::string& str : strs)
+        {
+            std::string key = str;
+            std::sort (key.begin(), key.end());
+
+            groups[key].push_back (str);
+        }
+
+        AnagramResult result = {};
+        for (const auto& pair : groups)
+            result.push_back (pair.second);
+
+        return result;
+    }
+
+    void print_result (const AnagramResult& result)
+    {
+        std::cout << "[";
+
+        for (size_t i = 0; i < result.size(); i++)
+        {
+            std::cout << "[";
+            for (size_t j = 0; j < result[i].size(); j++)
+            {
+                std::cout << "\"" << result[i][j] << "\"";
+
+                if (j < result[i].size() - 1)
+                    std::cout << ", ";
+            }
+
+            std::cout << "]";
+            if (i < result.size() - 1)
+                std::cout << ", ";
+        }
+
+        std::cout << "]" << std::endl;
     }
 }
