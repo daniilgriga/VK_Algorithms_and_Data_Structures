@@ -1,5 +1,13 @@
 #include "algorithms.hpp"
 
+static void print_vector (const std::vector<int>& vec)
+{
+    for (const auto& element : vec)
+        std::cout << element << " ";
+
+    std::cout << std::endl;
+}
+
 int main ()
 {
     // 1.
@@ -25,30 +33,30 @@ int main ()
     int target = 9;
 
     std::cout << "[5]: data = ";
-    algs::print_vector (data);
+    print_vector (data);
     std::cout << "     target = '" << target << "' -> ";
     std::vector<int> ans = algs::two_sum (data, target);
-    algs::print_vector (ans);
+    print_vector (ans);
 
     // 6.1. (sorts tests)
     std::vector<int> vec = algs::generate_rand_vector (10);
     std::vector<int> cp_vec = vec;
     std::cout << "[6.1]: vec = ";
-    algs::print_vector (vec);
+    print_vector (vec);
 
     algs::shell_sort (cp_vec, algs::ShellSeq_t::HIBBARD);
     std::cout << "[6.1 (hibbard)]: ";
-    algs::print_vector (cp_vec);
+    print_vector (cp_vec);
 
     cp_vec = vec;
     algs::shell_sort (cp_vec, algs::ShellSeq_t::PRATT);
     std::cout << "[6.1 (pratt)]: ";
-    algs::print_vector (cp_vec);
+    print_vector (cp_vec);
 
     cp_vec = vec;
     algs::shell_sort (cp_vec, algs::ShellSeq_t::CIURA);
     std::cout << "[6.1 (ciura)]: ";
-    algs::print_vector (cp_vec);
+    print_vector (cp_vec);
 
     std::cout << std::endl;
 

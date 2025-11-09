@@ -8,14 +8,6 @@
 
 namespace algs
 {
-    static void print_vector (const std::vector<int>& vec)
-    {
-        for (const auto& element : vec)
-            std::cout << element << " ";
-
-        std::cout << std::endl;
-    }
-
     // 1.
     using ll_t = long long;
 
@@ -320,21 +312,19 @@ namespace algs
         {
             case ShellSeq_t::HIBBARD:
                 gaps = generate_hibbard_seq (n);
-                std::cout << "[6.1 (hibbard)]: generated seq -> ";
+                //std::cout << "[6.1 (hibbard)]: generated seq -> ";
                 break;
 
             case ShellSeq_t::PRATT:
                 gaps = generate_pratt_seq (n);
-                std::cout << "[6.1 (pratt)]: generated seq -> ";
+                //std::cout << "[6.1 (pratt)]: generated seq -> ";
                 break;
 
             case ShellSeq_t::CIURA:
                 gaps = generate_ciura_seq (n);
-                std::cout << "[6.1 (ciura)]: generated seq -> ";
+                //std::cout << "[6.1 (ciura)]: generated seq -> ";
                 break;
         }
-
-        print_vector (gaps);
 
         for (int gap : gaps)
         {
