@@ -28,6 +28,7 @@ void test_symmetric()
 
 void test_min_depth()
 {
+    // example 1
     std::vector<int> balanced_data = {1, 2, 3, 4, 5};
     auto balanced_tree = bst::Algorithms<int>::build_tree_from_array (balanced_data);
 
@@ -38,6 +39,7 @@ void test_min_depth()
     std::cout << "[3]: Min_depth: " << bst::Algorithms<int>::min_depth (balanced_tree) << std::endl;
     std::cout << std::endl;
 
+    // example 2
     std::vector<int> right_heavy_data = {1, 2, 3, -1, -1, -1, 4};           // -1 for skippings
     auto right_heavy_tree = bst::Algorithms<int>::build_tree_from_array (right_heavy_data);
 
@@ -53,6 +55,7 @@ void test_min_depth()
     std::cout << "[3]: Min_depth: " << bst::Algorithms<int>::min_depth (right_heavy_tree) << std::endl;
     std::cout << std::endl;
 
+    // example 3
     std::vector<int> task_data = {11, 16, 9, 6, -1, 13, -1};                // -1 for skippings
     auto task_tree = bst::Algorithms<int>::build_tree_from_array (task_data);
 
@@ -93,21 +96,50 @@ void test_min_max_mult()
     std::cout << "[4]: min * max: " << bst::Algorithms<int>::max_min_mult (heap_data2) << std::endl;
 }
 
+void test_tree_equality()
+{
+    // example 1
+    bst::BinaryTree<int> tree1;
+    tree1.insert (1);
+    tree1.insert (2);
+
+    bst::BinaryTree<int> tree2;
+    tree2.insert (1);
+    tree2.insert (3);
+
+    std::cout << "[5]: Not the same tree: " << bst::Algorithms<int>::are_trees_equal (tree1, tree2) << std::endl;
+
+    // example 2
+    std::vector<int> data = {1, 2, 3, 4, 5};
+    auto tree3 = bst::Algorithms<int>::build_tree_from_array (data);
+    auto tree4 = bst::Algorithms<int>::build_tree_from_array (data);
+
+    std::cout << "[5]: The same tree: " << bst::Algorithms<int>::are_trees_equal (tree3, tree4) << std::endl;
+}
+
+
+
 int main ()
 {
     // 1.
     std::vector<int> arr = {8, 9, 11, 7, 16, 3, 1};
     bst::BinaryTree<int> tree (arr);
     tree.save_dot ("dots/alg_1.dot");
+    std::cout << "[1]: in the \'img/alg_1.png\'" << std::endl;
 
     // 2.
     test_symmetric();
+    std::cout << std::endl;
 
     // 3.
     test_min_depth();
 
     // 4.
     test_min_max_mult();
+    std::cout << std::endl;
+
+    // 5.
+    test_tree_equality();
 
     return 0;
 }

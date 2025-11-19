@@ -142,5 +142,27 @@ namespace bst
 
             return data[min_index] * data[max_index];
         }
+
+        // 5.
+        static bool are_trees_equal (const BinaryTree<T>& tree1, const BinaryTree<T>& tree2)
+        {
+            return is_same_tree (tree1.root_, tree2.root_);
+        }
+
+        static bool is_same_tree (typename BinaryTree<T>::Node* a,
+                                  typename BinaryTree<T>::Node* b)
+        {
+            if (a == nullptr && b == nullptr)
+                return true;
+
+            if (a == nullptr || b == nullptr)
+                return false;
+
+            if (a->data() != b->data())
+                return false;
+
+            return (is_same_tree (a->left(), b->left()) &&
+                    is_same_tree (a->right(), b->right()));
+        }
     };
 } // namespace bst
