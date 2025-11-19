@@ -17,7 +17,7 @@ namespace bst
         }
 
         // 2.
-        static bool is_symmetric (const BinaryTree<T>& tree)
+        static bool is_symmetric_bfs (const BinaryTree<T>& tree)
         {
             if (tree.root_ == nullptr)
                 return true;
@@ -63,6 +63,64 @@ namespace bst
             }
 
             return true;
+        }
+
+        static bool is_symmetric_dfs (const BinaryTree<T>& tree)
+        {
+            if (tree.root_ == nullptr)
+                return true;
+
+            std::vector<T> data;
+            depth_search_inorder (tree.root_, data);
+
+            size_t j = data.size() - 1;
+
+            for (size_t i = 0; i < data.size() / 2; i++)
+            {
+                if (data[i] != data[j])
+                    return false;
+
+                j--;
+            }
+
+            return true;
+        }
+
+        static void depth_search_inorder (typename BinaryTree<T>::Node* node, std::vector<T>& data)
+        {
+            if (node == nullptr)
+                return;
+
+            depth_search_inorder (node->left(), data);
+            data.push_back (node->data());
+            depth_search_inorder (node->right(), data);
+        }
+
+        // 3.
+        static size_t min_depth (const BinaryTree<T>& tree)
+        {
+            return min_depth_rec (tree.root_);
+        }
+
+        static size_t min_depth_rec (typename BinaryTree<T>::Node* root)
+        {
+            if (root == nullptr)
+                return 0;
+
+            if (root->left() == nullptr && root->right() == nullptr)
+                return 1;
+
+            if (root->left() != nullptr && root->right() != nullptr)
+                return 1 + std::min (min_depth_rec (root->left()),
+                                     min_depth_rec (root->right()));
+
+            if (root->left() != nullptr)
+                return 1 + min_depth_rec (root->left());
+
+            if (root->right() != nullptr)
+                return 1 + min_depth_rec (root->right());
+
+            return 1;       // plug
         }
     };
 } // namespace bst

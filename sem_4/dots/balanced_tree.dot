@@ -1,0 +1,26 @@
+digraph BinaryTree {
+    node [shape=circle, fontname="Arial"];
+    edge [arrowhead=normal];
+
+    node0x56227e2c0b30 [label="1"];
+    node0x56227e2c0b30 -> node0x56227e2c0c70 [label="L"];
+    node0x56227e2c0b30 -> node0x56227e2c0b50 [label="R"];
+    node0x56227e2c0c70 [label="2"];
+    node0x56227e2c0c70 -> node0x56227e2c0c30 [label="L"];
+    node0x56227e2c0c70 -> node0x56227e2c0cb0 [label="R"];
+    node0x56227e2c0b50 [label="3"];
+    null0 [shape=point, width=0.1, color="#888888"];
+    node0x56227e2c0b50 -> null0 [style=dashed, color="#888888", label="L"];
+    null1 [shape=point, width=0.1, color="#888888"];
+    node0x56227e2c0b50 -> null1 [style=dashed, color="#888888", label="R"];
+    node0x56227e2c0c30 [label="4"];
+    null2 [shape=point, width=0.1, color="#888888"];
+    node0x56227e2c0c30 -> null2 [style=dashed, color="#888888", label="L"];
+    null3 [shape=point, width=0.1, color="#888888"];
+    node0x56227e2c0c30 -> null3 [style=dashed, color="#888888", label="R"];
+    node0x56227e2c0cb0 [label="5"];
+    null4 [shape=point, width=0.1, color="#888888"];
+    node0x56227e2c0cb0 -> null4 [style=dashed, color="#888888", label="L"];
+    null5 [shape=point, width=0.1, color="#888888"];
+    node0x56227e2c0cb0 -> null5 [style=dashed, color="#888888", label="R"];
+}
