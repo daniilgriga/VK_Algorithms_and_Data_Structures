@@ -123,6 +123,29 @@ namespace bst
             return new_node;
         }
 
+        // ===== THATS THE FIRST TASK ===== //
+        Node* build_from_array (const std::vector<T>& arr, size_t i)
+        {
+            if (i >= arr.size())
+                return nullptr;
+
+            Node* node = new Node (arr[i]);
+            node->set_left  (build_from_array (arr, 2 * i + 1));
+            node->set_right (build_from_array (arr, 2 * i + 2));
+
+            return node;
+        }
+
+        size_t count_nodes (Node* node)
+        {
+            if (node == nullptr)
+                return 0;
+
+            return 1 + count_nodes (node->left())
+                     + count_nodes (node->right());
+        }
+        // ================================ //
+
     public:
         BinaryTree() : root_(nullptr), size_(0) {}
 
@@ -168,6 +191,16 @@ namespace bst
 
             return *this;
         }
+        // ===== THATS THE FIRST TASK ===== //
+        BinaryTree(const std::vector<T>& arr) : root_(nullptr), size_(0)
+        {
+            if (arr.empty())
+                return;
+
+            root_ = build_from_array (arr, 0);
+            size_ = count_nodes (root_);
+        }
+        // ================================ //
 
         bool empty()  const noexcept { return size_ == 0; }
         size_t size() const noexcept { return size_; }
