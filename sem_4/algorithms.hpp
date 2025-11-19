@@ -122,5 +122,25 @@ namespace bst
 
             return 1;       // plug
         }
+
+        // 4.
+        static T max_min_mult (const std::vector<T>& data)
+        {
+            if (data.size() < 3)
+                return -1;
+
+            size_t min_index = 1;
+            for (size_t i = 1; i < data.size(); i = 2 * i + 1)
+                min_index = i;
+
+            size_t max_index = 2;
+            for (size_t i = 2; i < data.size(); i = 2 * i + 2)
+                max_index = i;
+
+            if (min_index >= data.size() || max_index >= data.size())
+                return -1;
+
+            return data[min_index] * data[max_index];
+        }
     };
 } // namespace bst

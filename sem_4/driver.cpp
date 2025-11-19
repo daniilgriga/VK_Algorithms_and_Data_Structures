@@ -6,21 +6,21 @@ void test_symmetric()
     std::vector<int> sym_data = {1, 2, 2, 3, 4, 4, 3};
     auto sym_tree = bst::Algorithms<int>::build_tree_from_array (sym_data);
 
-    std::cout << "[2:] syn tree: ";
+    std::cout << "[2]: syn tree: ";
     for (int val : sym_tree.level_order()) std::cout << val << " ";
     std::cout << std::endl;
-    std::cout << "[2:] BFS is_symmetric: " << bst::Algorithms<int>::is_symmetric_bfs (sym_tree) << std::endl;
-    std::cout << "[2:] DFS is_symmetric: " << bst::Algorithms<int>::is_symmetric_dfs (sym_tree) << std::endl;
+    std::cout << "[2]: BFS is_symmetric: " << bst::Algorithms<int>::is_symmetric_bfs (sym_tree) << std::endl;
+    std::cout << "[2]: DFS is_symmetric: " << bst::Algorithms<int>::is_symmetric_dfs (sym_tree) << std::endl;
 
     // asym
     std::vector<int> asym_data = {1, 2, 2, 3, 4, 3, 4};
     auto asym_tree = bst::Algorithms<int>::build_tree_from_array (asym_data);
 
-    std::cout << "asym tree: ";
+    std::cout << "[2]: asym tree: ";
     for (int val : asym_tree.level_order()) std::cout << val << " ";
     std::cout << std::endl;
-    std::cout << "[2:] BFS is_symmetric: " << bst::Algorithms<int>::is_symmetric_bfs (asym_tree) << std::endl;
-    std::cout << "[2:] DFS is_symmetric: " << bst::Algorithms<int>::is_symmetric_dfs (asym_tree) << std::endl;
+    std::cout << "[2]: BFS is_symmetric: " << bst::Algorithms<int>::is_symmetric_bfs (asym_tree) << std::endl;
+    std::cout << "[2]: DFS is_symmetric: " << bst::Algorithms<int>::is_symmetric_dfs (asym_tree) << std::endl;
 
     sym_tree.save_dot  ("dots/sym_tree_2.dot");
     asym_tree.save_dot ("dots/asym_tree_2.dot");
@@ -31,17 +31,17 @@ void test_min_depth()
     std::vector<int> balanced_data = {1, 2, 3, 4, 5};
     auto balanced_tree = bst::Algorithms<int>::build_tree_from_array (balanced_data);
 
-    std::cout << "[3:] Balance tree: ";
+    std::cout << "[3]: Balance tree: ";
     for (int val : balanced_tree.level_order())
         std::cout << val << " ";
     std::cout << std::endl;
-    std::cout << "[3:] Min_depth: " << bst::Algorithms<int>::min_depth (balanced_tree) << std::endl;
+    std::cout << "[3]: Min_depth: " << bst::Algorithms<int>::min_depth (balanced_tree) << std::endl;
     std::cout << std::endl;
 
     std::vector<int> right_heavy_data = {1, 2, 3, -1, -1, -1, 4};           // -1 for skippings
     auto right_heavy_tree = bst::Algorithms<int>::build_tree_from_array (right_heavy_data);
 
-    std::cout << "[3:] Right heavy tree: ";
+    std::cout << "[3]: Right heavy tree: ";
     for (int val : right_heavy_tree.level_order())
     {
         if (val != -1)
@@ -50,13 +50,13 @@ void test_min_depth()
             std::cout << "null ";
     }
     std::cout << std::endl;
-    std::cout << "[3:] Min_depth: " << bst::Algorithms<int>::min_depth (right_heavy_tree) << std::endl;
+    std::cout << "[3]: Min_depth: " << bst::Algorithms<int>::min_depth (right_heavy_tree) << std::endl;
     std::cout << std::endl;
 
     std::vector<int> task_data = {11, 16, 9, 6, -1, 13, -1};                // -1 for skippings
     auto task_tree = bst::Algorithms<int>::build_tree_from_array (task_data);
 
-    std::cout << "[3:] Random: ";
+    std::cout << "[3]: Random: ";
     for (int val : task_tree.level_order())
     {
         if (val != -1)
@@ -65,7 +65,7 @@ void test_min_depth()
             std::cout << "null ";
     }
     std::cout << std::endl;
-    std::cout << "[3:] Min_depth: " << bst::Algorithms<int>::min_depth (task_tree) << std::endl;
+    std::cout << "[3]: Min_depth: " << bst::Algorithms<int>::min_depth (task_tree) << std::endl;
     std::cout << std::endl;
 
     balanced_tree.save_dot ("dots/balanced_tree.dot");
@@ -73,12 +73,31 @@ void test_min_depth()
     task_tree.save_dot ("dots/task_tree.dot");
 }
 
+void test_min_max_mult()
+{
+    // example 1
+    std::vector<int> heap_data = {8, 9, 11, 7, 16, 3, 1};
+
+    std::cout << "[4]: Example 1: ";
+    for (int val : heap_data) std::cout << val << " ";
+    std::cout << std::endl;
+
+    std::cout << "[4]: min * max: " << bst::Algorithms<int>::max_min_mult (heap_data) << std::endl;
+
+    // example 2
+    std::vector<int> heap_data2 = {10, 5, 15, 2, 7, 12, 20, 1, 3, 6, 8, 11, 13, 18, 25};
+    std::cout << "[4]: Example 2: ";
+    for (int val : heap_data2) std::cout << val << " ";
+    std::cout << std::endl;
+
+    std::cout << "[4]: min * max: " << bst::Algorithms<int>::max_min_mult (heap_data2) << std::endl;
+}
+
 int main ()
 {
     // 1.
     std::vector<int> arr = {8, 9, 11, 7, 16, 3, 1};
     bst::BinaryTree<int> tree (arr);
-
     tree.save_dot ("dots/alg_1.dot");
 
     // 2.
@@ -87,7 +106,8 @@ int main ()
     // 3.
     test_min_depth();
 
-
+    // 4.
+    test_min_max_mult();
 
     return 0;
 }
