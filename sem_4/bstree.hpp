@@ -8,6 +8,8 @@
 
 namespace bst
 {
+    template<typename T> class Algorithms;
+
     template<typename T>
     class BinaryTree
     {
@@ -147,6 +149,8 @@ namespace bst
         // ================================ //
 
     public:
+        friend class Algorithms<T>;
+
         BinaryTree() : root_(nullptr), size_(0) {}
 
         ~BinaryTree()
@@ -257,7 +261,6 @@ namespace bst
             return result;
         }
 
-        // inorder
         std::vector<T> inorder() const
         {
             std::vector<T> result;
@@ -311,40 +314,59 @@ namespace bst
 
         void save_dot (const std::string& filename) const
         {
-            std::ofstream file(filename);
+            std::ofstream file (filename);
+
             file << "digraph BinaryTree {\n";
-            file << "    node [shape=circle];\n";
+            file << "    node [shape=circle, fontname=\"Arial\"];\n";
+            file << "    edge [arrowhead=normal];\n\n";
 
             if (root_ != nullptr)
             {
                 std::queue<Node*> q;
                 q.push (root_);
 
+                size_t null_count = 0;
+
                 while (!q.empty())
                 {
                     Node* current = q.front();
                     q.pop();
 
-                    file << "    \"" << current << "\" [label=\"" << current->data() << "\"];\n";
+                    file << "    node" << current << " [label=\"" << current->data() << "\"];\n";
 
-                    if (current->left())
+                    if (current->left() != nullptr)
                     {
-                        file << "    \"" << current << "\" -> \"" << current->left() << "\" [label=\"L\"];\n";
+                        file << "    node" << current << " -> node" << current->left() << " [label=\"L\"];\n";
                         q.push (current->left());
                     }
-
-                    if (current->right())
+                    else
                     {
-                        file << "    \"" << current << "\" -> \"" << current->right() << "\" [label=\"R\"];\n";
+                        file << "    null" << null_count << " [shape=point, width=0.1, color=\"#888888\"];\n";
+                        file << "    node" << current << " -> null" << null_count
+                             << " [style=dashed, color=\"#888888\", label=\"L\"];\n";
+
+                        null_count++;
+                    }
+
+                    if (current->right() != nullptr)
+                    {
+                        file << "    node" << current << " -> node" << current->right() << " [label=\"R\"];\n";
                         q.push (current->right());
+                    }
+                    else
+                    {
+                        file << "    null" << null_count << " [shape=point, width=0.1, color=\"#888888\"];\n";
+                        file << "    node" << current << " -> null" << null_count
+                             << " [style=dashed, color=\"#888888\", label=\"R\"];\n";
+
+                        null_count++;
                     }
                 }
             }
             else
             {
-                file << "    empty [label=\"Empty Tree\"];\n";
+                file << "    empty [label=\"Empty Tree\", shape=plaintext];\n";
             }
-
 
             file << "}\n";
             file.close();
