@@ -137,9 +137,6 @@ namespace bst
             for (size_t i = 2; i < data.size(); i = 2 * i + 2)
                 max_index = i;
 
-            if (min_index >= data.size() || max_index >= data.size())
-                return -1;
-
             return data[min_index] * data[max_index];
         }
 
