@@ -138,6 +138,31 @@ namespace tst
         int tree_height = bst::Algorithms<int>::calculate_heights_and_balance (tree);
         std::cout << "[5]: tree height = " << tree_height << std::endl;
     }
+
+    void test_mirror ()
+    {
+        bst::BinaryTree<int> tree;
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(7);
+        tree.insert(2);
+        tree.insert(4);
+        tree.insert(8);
+
+        std::cout << "[6]: Original tree inorder: ";
+        auto original_inorder = tree.inorder();
+        for (int val : original_inorder)
+            std::cout << val << " ";
+        std::cout << std::endl;
+
+        bst::Algorithms<int>::mirror_tree_recursive (tree);
+
+        std::cout << "[6]: After recursive mirror inorder: ";
+        auto mirrored1_inorder = tree.inorder();
+        for (int val : mirrored1_inorder)
+            std::cout << val << " ";
+        std::cout << std::endl;
+    }
 }
 
 int main ()
@@ -147,6 +172,7 @@ int main ()
     tst::test_merged_arr();
     tst::test_k_smallest();
     tst::test_balance_factor();
+    tst::test_mirror();
 
     return 0;
 }

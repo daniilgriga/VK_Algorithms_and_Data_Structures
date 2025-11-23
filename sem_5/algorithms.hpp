@@ -292,5 +292,52 @@ namespace bst
             return calculate_heights_and_balance_helper (tree.root());
         }
 
+        // 6.1.
+        static void mirror_tree_recursive (bst::BinaryTree<T>& tree)
+        {
+            mirror_tree_recursive_helper (tree.root());
+        }
+
+        // 6.2.
+        static void mirror_tree_bfs (bst::BinaryTree<T>& tree)
+        {
+            if (tree.empty())
+                return;
+
+            std::queue<typename bst::BinaryTree<T>::Node*> q;
+            q.push(tree.root());
+
+            while (!q.empty())
+            {
+                typename bst::BinaryTree<T>::Node* current = q.front();
+                q.pop();
+
+
+                typename bst::BinaryTree<T>::Node* temp = current->left();
+                current->set_left (current->right());
+                current->set_right (temp);
+
+                if (current->left() != nullptr)
+                    q.push (current->left());
+
+                if (current->right() != nullptr)
+                    q.push (current->right());
+            }
+        }
+
+        private:
+            static void mirror_tree_recursive_helper (typename bst::BinaryTree<T>::Node* node)
+            {
+                if (node == nullptr)
+                    return;
+
+                typename bst::BinaryTree<T>::Node* temp = node->left();
+                node->set_left (node->right());
+                node->set_right (temp);
+
+                mirror_tree_recursive_helper (node->left());
+                mirror_tree_recursive_helper (node->right());
+            }
+
     };
 }
