@@ -1,0 +1,434 @@
+#pragma once
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <fstream>
+
+namespace bst
+{
+    template<typename T> class Algorithms;
+
+    template<typename T>
+    class BinaryTree
+    {
+    private:
+        class Node
+        {
+        private:
+            T data_;
+            Node* left_;
+            Node* right_;
+            Node* parent_;
+
+        public:
+            explicit Node(const T& data, Node* left = nullptr, Node* right = nullptr, Node* parent = nullptr)
+                : data_(data),
+                  left_(left),
+                  right_(right),
+                  parent_(parent) {}
+
+            explicit Node(T&& data, Node* left = nullptr, Node* right = nullptr, Node* parent = nullptr)
+                : data_(std::move(data)),
+                  left_(left),
+                  right_(right),
+                  parent_(parent) {}
+
+            Node(const Node& other)
+                : data_(other.data_),
+                  left_(nullptr),
+                  right_(nullptr),
+                  parent_(nullptr) {}
+
+            const T& data() const { return data_; }
+            T& data() { return data_; }
+
+            const Node* left() const { return left_; }
+            Node* left() { return left_; }
+
+            const Node* right() const { return right_; }
+            Node* right() { return right_; }
+
+            const Node* parent() const { return parent_; }
+            Node* parent() { return parent_; }
+
+            void set_left(Node* left) { left_ = left; }
+            void set_right(Node* right) { right_ = right; }
+            void set_parent(Node* parent) { parent_ = parent; }
+            void set_data(const T& data) { data_ = data; }
+
+            friend class BinaryTree;
+        };
+
+        Node* root_;
+        size_t size_;
+
+        void clear_tree (Node* node)
+        {
+            if (node == nullptr)
+                return;
+
+            std::vector<Node*> vec;
+            vec.push_back (node);
+
+            while (!vec.empty())
+            {
+                Node* current = vec.back();
+                vec.pop_back();
+
+                Node* left = current->left();
+                if (left)
+                    vec.push_back (left);
+
+                Node* right = current->right();
+                if (right)
+                    vec.push_back (right);
+
+                delete current;
+            }
+        }
+
+        Node* copy_subtree (const Node* node)
+        {
+            if (node == nullptr)
+                return nullptr;
+
+            Node* new_node = new Node(node->data());
+
+            new_node->set_left (copy_subtree (node->left()));
+            new_node->set_right (copy_subtree (node->right()));
+
+            return new_node;
+        }
+
+        Node* insert_data (const T& data)
+        {
+            if (root_ == nullptr)
+            {
+                size_++;
+                root_ = new Node(data);
+
+                return root_;
+            }
+
+            Node* curr = root_;
+            Node* parent = nullptr;
+
+            while (curr != nullptr)
+            {
+                parent = curr;
+
+                if (data < curr->data())
+                    curr = curr->left();
+                else if (data > curr->data())
+                    curr = curr->right();
+                else
+                    return curr;
+            }
+
+            Node* new_node = new Node(data);
+            if (data < parent->data())
+                parent->set_left (new_node);
+            else
+                parent->set_right (new_node);
+
+            size_++;
+
+            return new_node;
+        }
+
+        // ===== THATS THE FIRST TASK ===== //
+        Node* build_from_array (const std::vector<T>& arr, size_t i)
+        {
+            if (i >= arr.size())
+                return nullptr;
+
+            Node* node = new Node (arr[i]);
+            node->set_left  (build_from_array (arr, 2 * i + 1));
+            node->set_right (build_from_array (arr, 2 * i + 2));
+
+            return node;
+        }
+
+        size_t count_nodes (Node* node)
+        {
+            if (node == nullptr)
+                return 0;
+
+            return 1 + count_nodes (node->left())
+                     + count_nodes (node->right());
+        }
+        // ================================ //
+
+    public:
+        friend class Algorithms<T>;
+
+        BinaryTree() : root_(nullptr), size_(0) {}
+
+        ~BinaryTree()
+        {
+            clear_tree(root_);
+        }
+
+        BinaryTree(const BinaryTree& other)
+            : root_(copy_subtree(other.root_)), size_(other.size_) {}
+
+        BinaryTree(BinaryTree&& other) noexcept
+            : root_(other.root_), size_(other.size_)
+        {
+            other.root_ = nullptr;
+            other.size_ = 0;
+        }
+
+        BinaryTree& operator= (const BinaryTree& other)
+        {
+            if (this != &other)
+            {
+                clear_tree (root_);
+                root_ = copy_subtree (other.root_);
+                size_ = other.size_;
+            }
+
+            return *this;
+        }
+
+        BinaryTree& operator= (BinaryTree&& other) noexcept
+        {
+            if (this != &other)
+            {
+                clear_tree (root_);
+
+                root_ = other.root_;
+                size_ = other.size_;
+
+                other.root_ = nullptr;
+                other.size_ = 0;
+            }
+
+            return *this;
+        }
+        // ===== THATS THE FIRST TASK ===== //
+        BinaryTree(const std::vector<T>& arr) : root_(nullptr), size_(0)
+        {
+            if (arr.empty())
+                return;
+
+            root_ = build_from_array (arr, 0);
+            size_ = count_nodes (root_);
+        }
+        // ================================ //
+
+        bool empty()  const noexcept { return size_ == 0; }
+        size_t size() const noexcept { return size_; }
+
+        const Node* root() const { return root_; }
+        Node* root() { return root_; }
+
+        void insert (const T& data)
+        {
+            insert_data (data);
+        }
+
+        void insert_level_order (const T& data)
+        {
+            if (root_ == nullptr)
+            {
+                root_ = new Node(data);
+                size_ = 1;
+                return;
+            }
+
+            std::queue<Node*> q;
+            q.push(root_);
+
+            while (!q.empty())
+            {
+                Node* current = q.front();
+                q.pop();
+
+
+                if (current->left() == nullptr)
+                {
+                    Node* new_node = new Node(data, nullptr, nullptr, current);
+                    current->set_left (new_node);
+                    size_++;
+                    return;
+                }
+                else
+                {
+                    q.push (current->left());
+                }
+
+                if (current->right() == nullptr)
+                {
+                    Node* new_node = new Node(data, nullptr, nullptr, current);
+                    current->set_right (new_node);
+                    size_++;
+                    return;
+                }
+                else
+                {
+                    q.push (current->right());
+                }
+            }
+        }
+
+        bool contains (const T& data) const
+        {
+            Node* curr = root_;
+            while (curr != nullptr)
+            {
+                if (data == curr->data())
+                    return true;
+                else if (data < curr->data())
+                    curr = curr->left();
+                else
+                    curr = curr->right();
+            }
+
+            return false;
+        }
+
+        // BFS
+        std::vector<T> level_order() const
+        {
+            std::vector<T> result;
+
+            if (root_ == nullptr)
+                return result;
+
+            std::queue<Node*> q;
+            q.push(root_);
+
+            while (!q.empty())
+            {
+                Node* current = q.front();
+                q.pop();
+
+                result.push_back (current->data());
+
+                if (current->left())
+                    q.push (current->left());
+
+                if (current->right())
+                    q.push (current->right());
+            }
+
+            return result;
+        }
+
+        std::vector<T> inorder() const
+        {
+            std::vector<T> result;
+            std::stack<Node*> s;
+
+            Node* curr = root_;
+
+            while (curr != nullptr || !s.empty())
+            {
+                while (curr != nullptr)
+                {
+                    s.push (curr);
+                    curr = curr->left();
+                }
+
+                curr = s.top();
+                s.pop();
+
+                result.push_back (curr->data());
+                curr = curr->right();
+            }
+
+            return result;
+        }
+
+        const Node* min_node() const
+        {
+            if (root_ == nullptr)
+                return nullptr;
+
+            Node* curr = root_;
+
+            while (curr->left() != nullptr)
+                curr = curr->left();
+
+            return curr;
+        }
+
+        const Node* max_node() const
+        {
+            if (root_ == nullptr)
+                return nullptr;
+
+            Node* curr = root_;
+
+            while (curr->right() != nullptr)
+                curr = curr->right();
+
+            return curr;
+        }
+
+        void save_dot (const std::string& filename) const
+        {
+            std::ofstream file (filename);
+
+            file << "digraph BinaryTree {\n";
+            file << "    node [shape=circle, fontname=\"Arial\"];\n";
+            file << "    edge [arrowhead=normal];\n\n";
+
+            if (root_ != nullptr)
+            {
+                std::queue<Node*> q;
+                q.push (root_);
+
+                size_t null_count = 0;
+
+                while (!q.empty())
+                {
+                    Node* current = q.front();
+                    q.pop();
+
+                    file << "    node" << current << " [label=\"" << current->data() << "\"];\n";
+
+                    if (current->left() != nullptr)
+                    {
+                        file << "    node" << current << " -> node" << current->left() << " [label=\"L\"];\n";
+                        q.push (current->left());
+                    }
+                    else
+                    {
+                        file << "    null" << null_count << " [shape=point, width=0.1, color=\"#888888\"];\n";
+                        file << "    node" << current << " -> null" << null_count
+                             << " [style=dashed, color=\"#888888\", label=\"L\"];\n";
+
+                        null_count++;
+                    }
+
+                    if (current->right() != nullptr)
+                    {
+                        file << "    node" << current << " -> node" << current->right() << " [label=\"R\"];\n";
+                        q.push (current->right());
+                    }
+                    else
+                    {
+                        file << "    null" << null_count << " [shape=point, width=0.1, color=\"#888888\"];\n";
+                        file << "    node" << current << " -> null" << null_count
+                             << " [style=dashed, color=\"#888888\", label=\"R\"];\n";
+
+                        null_count++;
+                    }
+                }
+            }
+            else
+            {
+                file << "    empty [label=\"Empty Tree\", shape=plaintext];\n";
+            }
+
+            file << "}\n";
+            file.close();
+        }
+    };
+
+} // namespace bst
+
