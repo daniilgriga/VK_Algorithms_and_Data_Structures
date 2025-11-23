@@ -47,7 +47,77 @@ namespace tst
 
         bool is_complete_2 = bst::Algorithms<int>::is_complete_tree (tree);
         std::cout << "[2]: Is complete tree: " << (is_complete_2 ? "yes" : "no") << std::endl;
+    }
 
+    void test_merged_arr ()
+    {
+        std::vector<std::vector<int>> arrays = { {1, 4, 5},
+                                                 {1, 3, 4},
+                                                 {2, 6}    };
+
+        auto result_1 = bst::Algorithms<int>::merge_k_sorted_arrays_simple (arrays);
+        auto result_2 = bst::Algorithms<int>::merge_k_sorted_arrays_advanced (arrays);
+
+        std::cout << "[3]: Input arrays:" << std::endl;
+        for (const auto& arr : arrays)
+        {
+            for (int val : arr) std::cout << val << " ";
+            std::cout << std::endl;
+        }
+
+        std::cout << "[3.1]: Merged result_1: ";
+        for (int val : result_1) std::cout << val << " ";
+        std::cout << std::endl;
+
+        bool is_sorted = true;
+        for (size_t i = 1; i < result_1.size(); ++i)
+            if (result_1[i] < result_1[i-1])
+            {
+                is_sorted = false;
+                break;
+            }
+
+        std::cout << "[3.1]: Is correctly sorted: " << (is_sorted ? "yes" : "no") << std::endl;
+        std::cout << "[3.1]: Total elements: " << result_1.size() << std::endl;
+
+        std::cout << "[3.2]: Merged result_2: ";
+        for (int val : result_2) std::cout << val << " ";
+        std::cout << std::endl;
+
+        is_sorted = true;
+        for (size_t i = 1; i < result_2.size(); ++i)
+            if (result_2[i] < result_2[i-1])
+            {
+                is_sorted = false;
+                break;
+            }
+
+        std::cout << "[3.2]: Is correctly sorted: " << (is_sorted ? "yes" : "no") << std::endl;
+        std::cout << "[3.2]: Total elements: " << result_2.size() << std::endl;
+    }
+
+    void test_k_smallest ()
+    {
+        bst::BinaryTree<int> tree;
+        tree.insert (5);
+        tree.insert (3);
+        tree.insert (7);
+        tree.insert (2);
+        tree.insert (4);
+        tree.insert (8);
+
+        auto inorder = tree.inorder();
+        std::cout << "[4]: Inorder traversal: ";
+        for (int val : inorder)
+            std::cout << val << " ";
+        std::cout << std::endl;
+
+        std::cout << "[4]: 1st smallest: " << bst::Algorithms<int>::k_smallest (tree, 1) << " (expected: 2)" << std::endl;
+        std::cout << "[4]: 2nd smallest: " << bst::Algorithms<int>::k_smallest (tree, 2) << " (expected: 3)" << std::endl;
+        std::cout << "[4]: 3rd smallest: " << bst::Algorithms<int>::k_smallest (tree, 3) << " (expected: 4)" << std::endl;
+        std::cout << "[4]: 4th smallest: " << bst::Algorithms<int>::k_smallest (tree, 4) << " (expected: 5)" << std::endl;
+        std::cout << "[4]: 5th smallest: " << bst::Algorithms<int>::k_smallest (tree, 5) << " (expected: 7)" << std::endl;
+        std::cout << "[4]: 6th smallest: " << bst::Algorithms<int>::k_smallest (tree, 6) << " (expected: 8)" << std::endl;
     }
 }
 
@@ -55,6 +125,8 @@ int main ()
 {
     tst::test_max_heap();
     tst::test_complete_tree();
+    tst::test_merged_arr();
+    tst::test_k_smallest();
 
     return 0;
 }
