@@ -112,12 +112,31 @@ namespace tst
             std::cout << val << " ";
         std::cout << std::endl;
 
-        std::cout << "[4]: 1st smallest: " << bst::Algorithms<int>::k_smallest (tree, 1) << " (expected: 2)" << std::endl;
-        std::cout << "[4]: 2nd smallest: " << bst::Algorithms<int>::k_smallest (tree, 2) << " (expected: 3)" << std::endl;
-        std::cout << "[4]: 3rd smallest: " << bst::Algorithms<int>::k_smallest (tree, 3) << " (expected: 4)" << std::endl;
-        std::cout << "[4]: 4th smallest: " << bst::Algorithms<int>::k_smallest (tree, 4) << " (expected: 5)" << std::endl;
-        std::cout << "[4]: 5th smallest: " << bst::Algorithms<int>::k_smallest (tree, 5) << " (expected: 7)" << std::endl;
-        std::cout << "[4]: 6th smallest: " << bst::Algorithms<int>::k_smallest (tree, 6) << " (expected: 8)" << std::endl;
+        std::cout << "[4]: 1st smallest: " << bst::Algorithms<int>::k_smallest (tree, 1) << std::endl;
+        std::cout << "[4]: 2nd smallest: " << bst::Algorithms<int>::k_smallest (tree, 2) << std::endl;
+        std::cout << "[4]: 3rd smallest: " << bst::Algorithms<int>::k_smallest (tree, 3) << std::endl;
+        std::cout << "[4]: 4th smallest: " << bst::Algorithms<int>::k_smallest (tree, 4) << std::endl;
+        std::cout << "[4]: 5th smallest: " << bst::Algorithms<int>::k_smallest (tree, 5) << std::endl;
+        std::cout << "[4]: 6th smallest: " << bst::Algorithms<int>::k_smallest (tree, 6) << std::endl;
+    }
+
+    void test_balance_factor ()
+    {
+        bst::BinaryTree<int> tree;
+        tree.insert (5);
+        tree.insert (3);
+        tree.insert (7);
+        tree.insert (2);
+        tree.insert (4);
+        tree.insert (8);
+
+        std::cout << "[5]: tree: ";
+        auto level_order = tree.level_order();
+        for (int val : level_order) std::cout << val << " ";
+        std::cout << std::endl;
+
+        int tree_height = bst::Algorithms<int>::calculate_heights_and_balance (tree);
+        std::cout << "[5]: tree height = " << tree_height << std::endl;
     }
 }
 
@@ -127,6 +146,7 @@ int main ()
     tst::test_complete_tree();
     tst::test_merged_arr();
     tst::test_k_smallest();
+    tst::test_balance_factor();
 
     return 0;
 }

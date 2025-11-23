@@ -270,5 +270,27 @@ namespace bst
 
             return result->data();
         }
+
+        // 5.
+    private:
+        static int calculate_heights_and_balance_helper (typename bst::BinaryTree<T>::Node* node)
+        {
+            if (node == nullptr)
+                return 0;
+
+            int left_height = calculate_heights_and_balance_helper (node->left());
+            int right_height = calculate_heights_and_balance_helper (node->right());
+
+            node->set_balance_factor (left_height - right_height);
+
+            return 1 + std::max (left_height, right_height);
+        }
+
+    public:
+        static int calculate_heights_and_balance (bst::BinaryTree<T>& tree)
+        {
+            return calculate_heights_and_balance_helper (tree.root());
+        }
+
     };
 }

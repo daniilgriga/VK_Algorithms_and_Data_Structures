@@ -21,6 +21,7 @@ namespace bst
             Node* left_;
             Node* right_;
             Node* parent_;
+            int balance_factor_;
 
         public:
             explicit Node(const T& data, Node* left = nullptr, Node* right = nullptr, Node* parent = nullptr)
@@ -57,6 +58,9 @@ namespace bst
             void set_right(Node* right) { right_ = right; }
             void set_parent(Node* parent) { parent_ = parent; }
             void set_data(const T& data) { data_ = data; }
+
+            int balance_factor() const { return balance_factor_; }
+            void set_balance_factor(int bf)  { balance_factor_ = bf; }
 
             friend class BinaryTree;
         };
