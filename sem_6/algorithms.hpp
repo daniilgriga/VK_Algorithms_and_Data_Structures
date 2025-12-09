@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <climits>
 
 namespace algs
 {
@@ -137,6 +138,75 @@ namespace algs
                 dp[row][col] = dp[row - 1][col - 1] + dp[row - 1][col];
 
         return dp;
+    }
+
+    // 5.
+    int max_profit_stock (const std::vector<int>& prices)
+    {
+        if (prices.size() < 2)
+            return 0;
+
+        int profit = 0;
+        int min_price = prices[0];
+
+        for (size_t i = 1; i < prices.size(); i++)
+        {
+            profit = std::max (profit, prices[i] - min_price);
+            min_price = std::min (min_price, prices[i]);
+        }
+
+        return profit;
+    }
+
+    // 6.1.
+    int coin_change_recursive_helper (const std::vector<int>& coins,
+                                      int amount,
+                                      std::vector<int>& memo)
+    {
+        if (amount == 0)
+            return 0;
+        if (amount < 0)
+            return -1;
+
+        if (memo[amount] != -2)
+            return memo[amount];
+
+        int min_coins = INT_MAX;
+
+        for (int coin : coins)
+        {
+            int res = coin_change_recursive_helper (coins, amount - coin, memo);
+            if (res >= 0 && res < min_coins)
+                min_coins = res + 1;
+        }
+
+        memo[amount] = (min_coins == INT_MAX) ? -1 : min_coins;
+
+        return memo[amount];
+    }
+
+    int coin_change_recursive (const std::vector<int>& coins, int amount)
+    {
+        std::vector<int> memo(amount + 1, -2);
+        return coin_change_recursive_helper (coins, amount, memo);
+    }
+
+    // 6.2.
+    int coin_change_iterative (const std::vector<int>& coins, int amount)
+    {
+        std::vector<int> dp(amount + 1, amount + 1);
+        dp[0] = 0;
+
+        for (int i = 1; i <= amount; i++)
+        {
+            for (int coin : coins)
+            {
+                if (coin <= i)
+                    dp[i] = std::min (dp[i], dp[i - coin] + 1);
+            }
+        }
+
+        return dp[amount] > amount ? -1 : dp[amount];
     }
 
 }

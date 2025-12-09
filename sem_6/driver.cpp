@@ -80,6 +80,70 @@ void test_task_4()
     std::cout << std::endl;
 }
 
+void test_task_5()
+{
+    std::vector<std::vector<int>> testCases = {
+        {8, 9, 3, 7, 4, 16, 12},
+        {1, 2, 3, 4, 5, 6, 7},
+        {8, 7, 6, 5, 4, 3, 2},
+        {7, 1, 5, 3, 6, 4}
+    };
+
+    for (const auto& prices : testCases)
+    {
+        int result = algs::max_profit_stock (prices);
+        std::cout << "[5]: [";
+        for (size_t i = 0; i < prices.size(); i++)
+        {
+            std::cout << prices[i];
+            if (i < prices.size() - 1) std::cout << ", ";
+        }
+        std::cout << "] → profit = " << result << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
+void test_task_6()
+{
+    std::vector<std::pair<std::vector<int>, int>> testCases = {
+        {{1, 2, 5}, 11},
+        {{2}, 3},
+        {{1}, 0},
+        {{1, 3, 4}, 6}
+    };
+
+    std::cout << "[6.1]: Recursive version:" << std::endl;
+    for (const auto& [coins, amount] : testCases)
+    {
+        int result = algs::coin_change_recursive (coins, amount);
+        std::cout << "[6.1]: coins=[";
+
+        for (size_t i = 0; i < coins.size(); i++)
+        {
+            std::cout << coins[i];
+            if (i < coins.size() - 1) std::cout << ", ";
+        }
+        std::cout << "], amount=" << amount << " -> " << result << std::endl;
+    }
+
+    std::cout << "\n[6.2] Iterative version:" << std::endl;
+    for (const auto& [coins, amount] : testCases)
+    {
+        int result = algs::coin_change_iterative (coins, amount);
+
+        std::cout << "[6.2]: coins=[";
+        for (size_t i = 0; i < coins.size(); i++)
+        {
+            std::cout << coins[i];
+            if (i < coins.size() - 1) std::cout << ", ";
+        }
+        std::cout << "], amount=" << amount << " -> " << result << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
 
 int main()
 {
@@ -87,6 +151,8 @@ int main()
     test_task_2();
     test_task_3();
     test_task_4();
+    test_task_5();
+    test_task_6();
 
     return 0;
 }
