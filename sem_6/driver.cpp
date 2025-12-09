@@ -9,7 +9,7 @@ void test_task_1()
     for (int n : testCases)
     {
         int result = algs::binary_sequences_no_two_ones_v2 (n);
-        std::cout << "[1]: N = " << n << " → " << result << " sequences" << std::endl;
+        std::cout << "[1]: N = " << n << " -> " << result << " sequences" << std::endl;
     }
 
     std::cout << std::endl;
@@ -22,7 +22,7 @@ void test_task_2()
     for (int n : testCases)
     {
         int result = algs::count_sequence (n);
-        std::cout << "[2]: N = " << n << " → " << result << " sequences" << std::endl;
+        std::cout << "[2]: N = " << n << " -> " << result << " sequences" << std::endl;
     }
 
     std::cout << std::endl;
@@ -98,7 +98,7 @@ void test_task_5()
             std::cout << prices[i];
             if (i < prices.size() - 1) std::cout << ", ";
         }
-        std::cout << "] → profit = " << result << std::endl;
+        std::cout << "] -> profit = " << result << std::endl;
     }
 
     std::cout << std::endl;
@@ -144,6 +144,33 @@ void test_task_6()
     std::cout << std::endl;
 }
 
+void test_task_7()
+{
+    std::vector<std::string> testCases = {
+        "babad",
+        "cbbd",
+        "racecar",
+        "a",
+        "ac",
+        "oajdbhuduu"
+    };
+
+    std::cout << "[7.1]:" << std::endl;
+    for (const auto& s : testCases)
+    {
+        std::string result = algs::longest_palindrome_expand (s);
+        std::cout << "\"" << s << "\" -> \"" << result << "\"" << std::endl;
+    }
+
+    std::cout << "\n[7.2]: DP version:" << std::endl;
+    for (const auto& s : testCases)
+    {
+        std::string result = algs::longest_palindrome_dp (s);
+        std::cout << "\"" << s << "\" -> \"" << result << "\"" << std::endl;
+    }
+
+    std::cout << std::endl;
+}
 
 int main()
 {
@@ -153,6 +180,7 @@ int main()
     test_task_4();
     test_task_5();
     test_task_6();
+    test_task_7();
 
     return 0;
 }

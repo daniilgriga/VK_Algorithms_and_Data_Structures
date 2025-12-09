@@ -209,4 +209,88 @@ namespace algs
         return dp[amount] > amount ? -1 : dp[amount];
     }
 
+    // 7.1.
+    std::string longest_palindrome_expand (const std::string& s)
+    {
+        if (s.empty())
+            return "";
+
+        size_t start = 0;
+        size_t end = 0;
+
+        for (size_t i = 0; i < s.size(); i++)
+        {
+            int l1 = i, r1 = i;
+            while (l1 >= 0 && r1 < (int)s.size() && s[l1] == s[r1])
+            {
+                if ((size_t)(r1 - l1) > (end - start))
+                {
+                    start = l1;
+                    end = r1;
+                }
+                l1--;
+                r1++;
+            }
+
+            int l2 = i, r2 = i + 1;
+            while (l2 >= 0 && r2 < (int)s.size() && s[l2] == s[r2])
+            {
+                if ((size_t)(r2 - l2) > (end - start))
+                {
+                    start = l2;
+                    end = r2;
+                }
+                l2--;
+                r2++;
+            }
+        }
+
+        return s.substr (start, end - start + 1);
+    }
+
+    // 7.2.
+    std::string longest_palindrome_dp (const std::string& s)
+    {
+        size_t n = s.size();
+        if (n == 0)
+            return "";
+
+        std::vector<std::vector<bool>> dp(n, std::vector<bool>(n, false));
+
+        size_t start = 0;
+        size_t max_len = 1;
+
+        for (size_t i = 0; i < n; i++)
+            dp[i][i] = true;
+
+        for (size_t i = 0; i < n - 1; i++)
+        {
+            if (s[i] == s[i + 1])
+            {
+                dp[i][i + 1] = true;
+                max_len = 2;
+                start = i;
+            }
+        }
+
+        for (size_t len = 3; len <= n; len++)
+        {
+            for (size_t i = 0; i <= n - len; i++)
+            {
+                size_t j = i + len - 1;
+
+                if (s[i] == s[j] && dp[i + 1][j - 1])
+                {
+                    dp[i][j] = true;
+                    if (len > max_len)
+                    {
+                        max_len = len;
+                        start = i;
+                    }
+                }
+            }
+        }
+
+        return s.substr(start, max_len);
+    }
 }
