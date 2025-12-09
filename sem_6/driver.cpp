@@ -54,12 +54,39 @@ void test_task_3()
     std::cout << std::endl;
 }
 
+void print_vector (const std::vector<int>& v)
+{
+    for (int val : v)
+        std::cout << val << " ";
+    std::cout << std::endl;
+}
+
+void test_task_4()
+{
+    int n = 7;
+
+    std::cout << "[4.1]: Recursive version (n=" << n << "):" << std::endl;
+    auto result1 = algs::pascal_triangle_recursive (n);
+
+    for (const auto& row : result1)
+        print_vector (row);
+
+    std::cout << "\n[4.2]: Iterative version (n=" << n << "):" << std::endl;
+    auto result2 = algs::pascal_triangle_iterative (n);
+
+    for (const auto& row : result2)
+        print_vector (row);
+
+    std::cout << std::endl;
+}
+
 
 int main()
 {
     test_task_1();
     test_task_2();
     test_task_3();
+    test_task_4();
 
     return 0;
 }
