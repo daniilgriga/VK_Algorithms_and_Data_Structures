@@ -75,4 +75,28 @@ namespace algs
         return dp[n];
     }
 
+    // 3.
+    int longest_increasing_subarray (const std::vector<int>& nums)
+    {
+        if (nums.empty())
+            return 0;
+        if (nums.size() == 1)
+            return 1;
+
+        std::vector<int> dp(nums.size(), 1);
+        int max_length = 1;
+
+        for (size_t i = 1; i < nums.size(); i++)
+        {
+            if (nums[i] > nums[i - 1])
+                dp[i] = dp[i - 1] + 1;
+
+            if (dp[i] > max_length)
+                max_length = dp[i];
+        }
+
+        return max_length;
+    }
+
+
 }

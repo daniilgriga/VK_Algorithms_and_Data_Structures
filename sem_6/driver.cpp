@@ -28,11 +28,38 @@ void test_task_2()
     std::cout << std::endl;
 }
 
+void test_task_3()
+{
+    std::vector<std::vector<int>> testCases = {
+        {3, 2, 8, 9, 5, 10},
+        {1, 2, 7, 9, 0, 10},
+        {8, 8, 8, 8},
+        {1, 2, 3, 4, 5},
+        {5, 4, 3, 2, 1}
+    };
+
+    for (const auto& nums : testCases)
+    {
+        int result = algs::longest_increasing_subarray (nums);
+
+        std::cout << "[3]: [";
+        for (size_t i = 0; i < nums.size(); i++)
+        {
+            std::cout << nums[i];
+            if (i < nums.size() - 1) std::cout << ", ";
+        }
+        std::cout << "] -> " << result << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
 
 int main()
 {
     test_task_1();
     test_task_2();
+    test_task_3();
 
     return 0;
 }
