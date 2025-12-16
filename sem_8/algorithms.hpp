@@ -53,4 +53,30 @@ namespace algs
         return count;
     }
 
+    // 3.
+    int find_max_length (const std::vector<int>& nums)
+    {
+        int prefix_sum = 0;
+        int max_len = 0;
+
+        std::unordered_map<int, int> index_map;
+        index_map[0] = -1;
+        for (int i = 0; i < static_cast<int>(nums.size()); i++)
+        {
+            prefix_sum += (nums[i] == 0) ? -1 : 1;
+
+            if (index_map.find (prefix_sum) != index_map.end())
+            {
+                int length = i - index_map[prefix_sum];
+                max_len = std::max (max_len, length);
+            }
+            else
+            {
+                index_map[prefix_sum] = i;
+            }
+        }
+
+        return max_len;
+    }
+
 } // namespace algs

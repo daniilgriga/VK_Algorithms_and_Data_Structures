@@ -40,10 +40,29 @@ void test_task_2()
     std::cout << std::endl;
 }
 
+void test_task_3()
+{
+    std::vector<int> nums1 = {0, 1, 0, 0, 1};
+    std::cout << "[3]: Max length equal 0s and 1s: "
+              << algs::find_max_length (nums1) << std::endl;
+
+    std::vector<int> nums2 = {0, 1};
+    std::cout << "[3]: Max length equal 0s and 1s: "
+              << algs::find_max_length (nums2) << std::endl;
+
+    std::vector<int> nums3 = {0, 0, 1, 1, 0, 1};
+    std::cout << "[3]: Max length equal 0s and 1s: "
+              << algs::find_max_length (nums3) << std::endl;
+
+    std::cout << std::endl;
+}
+
+
 int main()
 {
     test_task_1();
     test_task_2();
+    test_task_3();
 
     return 0;
 }
