@@ -88,7 +88,7 @@ namespace algs
         for (int num : nums)
             total_sum += num;
 
-        for (int i = 0; i < nums.size(); i++)
+        for (int i = 0; i < static_cast<int>(nums.size()); i++)
         {
             if (left_sum == total_sum - left_sum - nums[i])
                 return i;
@@ -97,6 +97,32 @@ namespace algs
         }
 
         return -1;
+    }
+
+    // 5.
+    bool can_make_valid_with_deletions (const std::string& s, int k)
+    {
+        int balance = 0;
+        int extra_closed = 0;
+
+        for (char ch : s)
+        {
+            if (ch == '(')
+            {
+                balance++;
+            }
+            else
+            {
+                if (balance > 0)
+                    balance--;
+                else
+                    extra_closed++;
+            }
+        }
+
+        int total_needed = balance + extra_closed;
+
+        return total_needed <= k;
     }
 
 } // namespace algs

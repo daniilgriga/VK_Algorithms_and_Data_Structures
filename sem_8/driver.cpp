@@ -78,6 +78,46 @@ void test_task_4()
     std::cout << std::endl;
 }
 
+void test_task_5()
+{
+    std::cout << "[5]: Can make valid:" << std::endl;
+
+    std::cout << "  '()' k=0: "
+              << (algs::can_make_valid_with_deletions ("()", 0) ? "true" : "false")
+              << std::endl;
+
+    std::cout << "  '(()' k=1: "
+              << (algs::can_make_valid_with_deletions ("(()", 1) ? "true" : "false")
+              << std::endl;
+
+    std::cout << "  '))()' k=2: "
+              << (algs::can_make_valid_with_deletions ("))()", 2) ? "true" : "false")
+              << std::endl;
+
+    std::cout << "  '()))' k=2: "
+              << (algs::can_make_valid_with_deletions ("()))", 2) ? "true" : "false")
+              << std::endl;
+
+    std::cout << "  '()((' k=3: "
+              << (algs::can_make_valid_with_deletions ("()((", 3) ? "true" : "false")
+              << std::endl;
+
+    std::cout << "  '))' k=2: "
+              << (algs::can_make_valid_with_deletions ("))", 2) ? "true" : "false")
+              << std::endl;
+
+    std::cout << "  '))()('' k=2: "
+              << (algs::can_make_valid_with_deletions ("))()((", 2) ? "true" : "false")
+              << std::endl;
+
+    std::cout << "  '(((' k=1: "
+              << (algs::can_make_valid_with_deletions ("(((", 1) ? "true" : "false")
+              << std::endl;
+
+    std::cout << std::endl;
+}
+
+
 
 int main()
 {
@@ -85,6 +125,7 @@ int main()
     test_task_2();
     test_task_3();
     test_task_4();
+    test_task_5();
 
     return 0;
 }
