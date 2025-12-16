@@ -57,12 +57,34 @@ void test_task_3()
     std::cout << std::endl;
 }
 
+void test_task_4()
+{
+    std::vector<int> nums1 = {9, 4, 8, 7, 1, 11, 2, 6, 1};
+    std::cout << "[4]: "
+              << algs::pivot_index (nums1) << std::endl;
+
+    std::vector<int> nums2 = {1, 7, 3, 6, 5, 6};
+    std::cout << "[4]: "
+              << algs::pivot_index (nums2) << std::endl;
+
+    std::vector<int> nums3 = {1, 2, 3};
+    std::cout << "[4]: "
+              << algs::pivot_index (nums3) << std::endl;
+
+    std::vector<int> nums4 = {2, 1, -1};
+    std::cout << "[4]: "
+              << algs::pivot_index (nums4) << std::endl;
+
+    std::cout << std::endl;
+}
+
 
 int main()
 {
     test_task_1();
     test_task_2();
     test_task_3();
+    test_task_4();
 
     return 0;
 }
