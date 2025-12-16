@@ -101,12 +101,38 @@ void test_task_3()
     std::cout << std::endl;
 }
 
+void test_task_4()
+{
+    algs::WeightedGraph graph = {
+        {1, {{2, 1}, {3, 5}}},
+        {2, {{1, 1}, {3, 2}, {4, 3}}},
+        {3, {{1, 5}, {2, 2}, {4, 1}}},
+        {4, {{2, 3}, {3, 1}}}
+    };
+
+    std::cout << "[4]: Dijkstra from vertex 1:" << std::endl;
+    auto distances = algs::dijkstra (graph, 1);
+
+    for (const auto& [vertex, distance] : distances)
+    {
+        std::cout << "Vertex " << vertex << ": ";
+        if (distance == std::numeric_limits<int>::max())
+            std::cout << "unreachable";
+        else
+            std::cout << "distance = " << distance;
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
 
 int main()
 {
     test_task_1();
     test_task_2();
     test_task_3();
+    test_task_4();
 
     return 0;
 }

@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <queue>
+#include <limits>
 
 namespace algs
 {
@@ -157,6 +158,49 @@ namespace algs
         }
 
         return visited.size() == graph.size();
+    }
+
+    // 4.
+    using WeightedGraph = std::unordered_map<int, std::vector<std::pair<int, int>>>;
+
+    std::unordered_map<int, int> dijkstra (const WeightedGraph& graph, int start)
+    {
+        std::unordered_map<int, int> distances;
+
+        for (const auto& [vertex, neighbors] : graph)
+            distances[vertex] = std::numeric_limits<int>::max();
+
+        distances[start] = 0;
+
+        using Pair = std::pair<int, int>;
+        std::priority_queue<Pair, std::vector<Pair>, std::greater<Pair>> pq;
+
+        pq.push ({0, start});
+
+        while (!pq.empty())
+        {
+            auto [current_distance, current_vertex] = pq.top();
+            pq.pop();
+
+            if (current_distance > distances[current_vertex])
+                continue;
+
+            if (graph.find (current_vertex) != graph.end())
+            {
+                for (const auto& [neighbor, weight] : graph.at (current_vertex))
+                {
+                    int distance = current_distance + weight;
+
+                    if (distance < distances[neighbor])
+                    {
+                        distances[neighbor] = distance;
+                        pq.push ({distance, neighbor});
+                    }
+                }
+            }
+        }
+
+        return distances;
     }
 
 }
