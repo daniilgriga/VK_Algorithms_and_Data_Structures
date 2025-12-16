@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <queue>
 
 namespace algs
 {
@@ -118,5 +119,44 @@ namespace algs
         return false;
     }
 
+    // 3.
+    bool is_tree (const Graph& graph, int start)
+    {
+        if (graph.empty())
+            return false;
+
+        std::unordered_set<int> visited;
+        std::queue<int> queue;
+        std::unordered_map<int, int> parent;
+
+        queue.push (start);
+        parent[start] = -1;
+
+        while (!queue.empty())
+        {
+            int vertex = queue.front();
+            queue.pop();
+            visited.insert (vertex);
+
+            if (graph.find (vertex) != graph.end())
+            {
+                for (int neighbor : graph.at (vertex))
+                {
+                    if (visited.find (neighbor) == visited.end())
+                    {
+                        queue.push (neighbor);
+                        parent[neighbor] = vertex;
+                    }
+                    else
+                    {
+                        if (parent[vertex] != neighbor)
+                            return false;
+                    }
+                }
+            }
+        }
+
+        return visited.size() == graph.size();
+    }
 
 }

@@ -66,11 +66,47 @@ void test_task_2()
     std::cout << std::endl;
 }
 
+void test_task_3()
+{
+    algs::Graph tree = {
+        {1, {2, 3}},
+        {2, {1, 4}},
+        {3, {1}},
+        {4, {2}}
+    };
+
+    algs::Graph not_tree_cycle = {
+        {1, {2, 4}},
+        {2, {1, 3}},
+        {3, {2, 4}},
+        {4, {1, 3}}
+    };
+
+    algs::Graph not_tree_disconnected = {
+        {1, {2}},
+        {2, {1}},
+        {3, {4}},
+        {4, {3}}
+    };
+
+    std::cout << "[3]: Is tree (tree): "
+              << (algs::is_tree (tree, 1) ? "true" : "false") << std::endl;
+
+    std::cout << "[3]: Is tree (has cycle): "
+              << (algs::is_tree (not_tree_cycle, 1) ? "true" : "false") << std::endl;
+
+    std::cout << "[3]: Is tree (disconnected): "
+              << (algs::is_tree (not_tree_disconnected, 1) ? "true" : "false") << std::endl;
+
+    std::cout << std::endl;
+}
+
 
 int main()
 {
     test_task_1();
     test_task_2();
+    test_task_3();
 
     return 0;
 }
