@@ -78,4 +78,45 @@ namespace algs
         return colors;
     }
 
+    // 2.
+    bool dfs_has_cycle (const Graph& graph, int vertex, int parent,
+                        std::unordered_set<int>& visited)
+    {
+        visited.insert (vertex);
+
+        if (graph.find (vertex) != graph.end())
+        {
+            for (int neighbor : graph.at (vertex))
+            {
+                if (neighbor == parent)
+                    continue;
+
+                if (visited.find (neighbor) != visited.end())
+                    return true;
+
+                if (dfs_has_cycle (graph, neighbor, vertex, visited))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool has_cycle (const Graph& graph)
+    {
+        std::unordered_set<int> visited;
+
+        for (const auto& [vertex, neighbors] : graph)
+        {
+            if (visited.find (vertex) == visited.end())
+            {
+                if (dfs_has_cycle (graph, vertex, -1, visited))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+
 }

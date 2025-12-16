@@ -41,9 +41,36 @@ void test_task_1()
     std::cout << std::endl;
 }
 
+void test_task_2()
+{
+    algs::Graph graph_with_cycle = {
+        {1, {2, 4}},
+        {2, {1, 3}},
+        {3, {2, 4}},
+        {4, {1, 3}}
+    };
+
+    algs::Graph graph_no_cycle = {
+        {1, {2}},
+        {2, {1, 3, 4}},
+        {3, {2}},
+        {4, {2}}
+    };
+
+    std::cout << "[2]: Has cycle (graph with cycle): "
+              << (algs::has_cycle (graph_with_cycle) ? "true" : "false") << std::endl;
+
+    std::cout << "[2]: Has cycle (graph without cycle): "
+              << (algs::has_cycle (graph_no_cycle) ? "true" : "false") << std::endl;
+
+    std::cout << std::endl;
+}
+
+
 int main()
 {
     test_task_1();
+    test_task_2();
 
     return 0;
 }
