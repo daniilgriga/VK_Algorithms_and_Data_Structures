@@ -126,6 +126,38 @@ void test_task_4()
     std::cout << std::endl;
 }
 
+void test_task_5()
+{
+    algs::Graph bipartite = {
+        {1, {3, 4}},
+        {2, {3, 4}},
+        {3, {1, 2, 5, 6}},
+        {4, {1, 2, 5, 6}},
+        {5, {3, 4}},
+        {6, {3, 4}}
+    };
+
+    algs::Graph not_bipartite = {
+        {1, {2, 3}},
+        {2, {1, 3}},
+        {3, {1, 2}}
+    };
+
+    std::cout << "[5.1]: Is bipartite BFS (bipartite graph): "
+              << (algs::is_bipartite_bfs (bipartite) ? "true" : "false") << std::endl;
+
+    std::cout << "[5.1]: Is bipartite BFS (triangle): "
+              << (algs::is_bipartite_bfs (not_bipartite) ? "true" : "false") << std::endl;
+
+    std::cout << "\n[5.2]: Is bipartite DFS (bipartite graph): "
+              << (algs::is_bipartite_dfs (bipartite) ? "true" : "false") << std::endl;
+
+    std::cout << "[5.2]: Is bipartite DFS (triangle): "
+              << (algs::is_bipartite_dfs (not_bipartite) ? "true" : "false") << std::endl;
+
+    std::cout << std::endl;
+}
+
 
 int main()
 {
@@ -133,6 +165,7 @@ int main()
     test_task_2();
     test_task_3();
     test_task_4();
+    test_task_5();
 
     return 0;
 }

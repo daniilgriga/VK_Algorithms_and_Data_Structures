@@ -203,4 +203,94 @@ namespace algs
         return distances;
     }
 
+    // 5.1.
+    bool is_bipartite_bfs_helper (const Graph& graph, int start,
+                                  std::unordered_map<int, int>& colors)
+    {
+        std::queue<int> queue;
+        queue.push (start);
+        colors[start] = 1;
+
+        while (!queue.empty())
+        {
+            int vertex = queue.front();
+            queue.pop();
+
+            if (graph.find (vertex) != graph.end())
+            {
+                for (int neighbor : graph.at (vertex))
+                {
+                    if (colors.find (neighbor) == colors.end())
+                    {
+                        colors[neighbor] = -colors[vertex];
+                        queue.push (neighbor);
+                    }
+                    else if (colors[neighbor] == colors[vertex])
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool is_bipartite_bfs (const Graph& graph)
+    {
+        std::unordered_map<int, int> colors;
+
+        for (const auto& [vertex, neighbors] : graph)
+        {
+            if (colors.find (vertex) == colors.end())
+            {
+                if (!is_bipartite_bfs_helper (graph, vertex, colors))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    // 5.2.
+    bool is_bipartite_dfs_helper (const Graph& graph, int vertex, int color,
+                                  std::unordered_map<int, int>& colors)
+    {
+        colors[vertex] = color;
+
+        if (graph.find (vertex) != graph.end())
+        {
+            for (int neighbor : graph.at (vertex))
+            {
+                if (colors.find (neighbor) == colors.end())
+                {
+                    if (!is_bipartite_dfs_helper (graph, neighbor, -color, colors))
+                        return false;
+                }
+                else if (colors[neighbor] == colors[vertex])
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    bool is_bipartite_dfs (const Graph& graph)
+    {
+        std::unordered_map<int, int> colors;
+
+        for (const auto& [vertex, neighbors] : graph)
+        {
+            if (colors.find (vertex) == colors.end())
+            {
+                if (!is_bipartite_dfs_helper (graph, vertex, 1, colors))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
 }
